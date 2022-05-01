@@ -30,20 +30,36 @@ class SignUpViewController: UIViewController {
         let isEmptyConfirmPassword = validation.checkIsEmpty(textFields: confirmPasswordTextField)
         
         if(isEmptyPassword == true || isEmptyEmail == true || isEmptyName == true || isEmptyConfirmPassword == true){
-            let refreshAlert = UIAlertController(title: "Failed", message: "All Fields Are Required", preferredStyle: UIAlertController.Style.alert)
-
-            refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
             
+            displayAlert(title: "Failed", msg: "All Fields Are Required", style: .alert)
         }else{
             if(passwordTextField.text != confirmPasswordTextField.text){
-                let refreshAlert = UIAlertController(title: "Failed", message: "Password & Confirm Password Not Matched", preferredStyle: UIAlertController.Style.alert)
-
-                refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
                 
+                displayAlert(title: "Failed", msg: "Password & Confirm Password Not Matched", style: .alert)
             }else{
-                let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                let homeViewController = storyBoard.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
-                self.navigationController?.pushViewController(homeViewController, animated: true)            }
+                //let homeViewController = storyboard?.instantiateViewController(withIdentifier: Constants.Storyboard.homeViewController) as? HomeViewController
+                        
+                
+                //view.window?.rootViewController = homeViewController
+                //view.window?.makeKeyAndVisible()
+                if let window = UIApplication.shared.windows.first{
+
+                    let mainSB = UIStoryboard(name: "Main", bundle: nil)
+
+                   if let RootVc = mainSB.instantiateViewController(withIdentifier: Constants.Storyboard.homeTabBarController) as? HomeTabBarController{
+
+
+                        let initialViewController = mainSB.instantiateViewController(withIdentifier: Constants.Storyboard.homeViewController) as! HomeViewController
+                        let navController = UINavigationController(rootViewController: initialViewController)
+                       window.rootViewController = navController
+
+                       window.rootViewController = RootVc
+                        window.makeKeyAndVisible()
+
+                   }
+                }
+                
+            }
             
         }
         

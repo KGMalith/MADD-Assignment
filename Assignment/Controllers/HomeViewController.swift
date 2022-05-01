@@ -9,21 +9,33 @@ import UIKit
 
 class HomeViewController: UIViewController {
 
+    @IBOutlet weak var productsCollectionView: UICollectionView!
+    @IBOutlet weak var newProductsCollectionView: UICollectionView!
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        productsCollectionView.dataSource = self
+        newProductsCollectionView.dataSource = self
+        
+    }
+
+}
+
+extension HomeViewController:UICollectionViewDataSource{
+    func collectionView(_ productsCollectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return productArray.count    }
+    
+    func collectionView(_ productsCollectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let cell = productsCollectionView.dequeueReusableCell(withReuseIdentifier: Constants.Storyboard.productCollectionView, for: indexPath) as! ProductCollectionViewCell
+        cell.setup(with: productArray[indexPath.row])
+        return cell
     }
     
+}
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+extension ViewController: UICollectionViewDelegateFlowLayout{
+    func collectionView(_ productsCollectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 200, height: 300)
     }
-    */
-
 }

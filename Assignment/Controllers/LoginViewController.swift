@@ -35,41 +35,34 @@ class LoginViewController: UIViewController {
         let isEmptyEmail = validation.checkIsEmpty(textFields: passwordTextField)
 
         if (isEmptyPassword == true || isEmptyEmail == true) {
-            
-            let refreshAlert = UIAlertController(title: "Failed", message: "User Name or Password is Empty.", preferredStyle: UIAlertController.Style.alert)
-
-            refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-            
+            displayAlert(title: "Failed", msg: "Username or Password can not be empty", style: .alert)
         }else{
 
             if(username == USERNAME && password == PASSWORD){
-                             
                 
                 
                 if let window = UIApplication.shared.windows.first{
 
                     let mainSB = UIStoryboard(name: "Main", bundle: nil)
 
-                    if let RootVc = mainSB.instantiateViewController(withIdentifier: "HomeTabBarController") as? HomeTabBarController{
+                   if let RootVc = mainSB.instantiateViewController(withIdentifier: Constants.Storyboard.homeTabBarController) as? HomeTabBarController{
 
 
-                        let initialViewController = mainSB.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
+                        let initialViewController = mainSB.instantiateViewController(withIdentifier: Constants.Storyboard.homeViewController) as! HomeViewController
                         let navController = UINavigationController(rootViewController: initialViewController)
-                        window.rootViewController = navController
+                       window.rootViewController = navController
 
-                        window.rootViewController = RootVc
+                       window.rootViewController = RootVc
                         window.makeKeyAndVisible()
 
-                    }
+                   }
                 }
-
+                
+                
+                
             } else {
 
-                let refreshAlert = UIAlertController(title: "Failed", message: "User Name or Password is Invalid.", preferredStyle: UIAlertController.Style.alert)
-
-                refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-
-            }
+                    displayAlert(title: "Failed", msg: "User Name or Password is Invalid.", style: .alert)            }
         }
     }
     
